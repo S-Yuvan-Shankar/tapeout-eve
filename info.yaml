@@ -1,29 +1,21 @@
-# TinyTapeout project information
 project:
-  title:        " My Counter"        # Project title
-  author:       " Yuvan Shankar"         # Your name
-  discord:      " "                  # Your discord username, or leave blank
-  description:  " A simple counter"  # One line description
+  title:        "8-bit Counter"
+  author:       "S-Yuvan-Shankar"
+  discord:      ""
+  description:  "A simple 8-bit up counter"
   language:     "Verilog"
-  clock_hz:     0                      # Clock frequency in Hz (or 0 if not applicable)
+  clock_hz:     0
 
-  # How many tiles your design occupies (1x1, 1x2, 2x2 etc)
   tiles: "1x1"
 
-  # Set wokwi_id to 0 if using source_files (Verilog), or your wokwi project id if using Wokwi
   wokwi_id: 0
 
-  # List of Verilog source files, relative to the repo root
-  # (order matters if there are dependencies)
   source_files:
-    - "🔧 project.v"     # e.g. src/counter.v — must match your actual file path
+    - "project.v"
 
-  # Top module name — must match the module name in your top-level Verilog file
-  top_module: "🔧 tt_um_your_project_name"
+  top_module: "tt_um_counter"
 
-# The pinout of your project. Leave unused pins blank.
 pinout:
-  # Inputs
   ui[0]: ""
   ui[1]: ""
   ui[2]: ""
@@ -33,17 +25,15 @@ pinout:
   ui[6]: ""
   ui[7]: ""
 
-  # Outputs
-  uo[0]: ""
-  uo[1]: ""
-  uo[2]: ""
-  uo[3]: ""
-  uo[4]: ""
-  uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
+  uo[0]: "count[0]"
+  uo[1]: "count[1]"
+  uo[2]: "count[2]"
+  uo[3]: "count[3]"
+  uo[4]: "count[4]"
+  uo[5]: "count[5]"
+  uo[6]: "count[6]"
+  uo[7]: "count[7]"
 
-  # Bidirectional pins
   uio[0]: ""
   uio[1]: ""
   uio[2]: ""
@@ -53,5 +43,4 @@ pinout:
   uio[6]: ""
   uio[7]: ""
 
-# Do not change!
 yaml_version: 6
