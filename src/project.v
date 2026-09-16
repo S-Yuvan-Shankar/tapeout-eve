@@ -6,33 +6,28 @@
 `default_nettype none
 
 module tt_um_counter (
-    input  wire [7:0] ui_in,    // Dedicated inputs
-    output wire [7:0] uo_out,   // Dedicated outputs
-    input  wire [7:0] uio_in,   // IOs: Input path
-    output wire [7:0] uio_out,  // IOs: Output path
-    output wire [7:0] uio_oe,   // IO Enable: 1=output, 0=input
-    input  wire       ena,      // Enable
-    input  wire       clk,      // Clock
-    input  wire       rst_n     // Active-low reset
+    input  wire [7:0] ui_in,
+    output wire [7:0] uo_out,
+    input  wire [7:0] uio_in,
+    output wire [7:0] uio_out,
+    output wire [7:0] uio_oe,
+    input  wire       ena,
+    input  wire       clk,
+    input  wire       rst_n
 );
 
-    // 8-bit counter register
     reg [7:0] count;
 
-    // Counter logic
     always @(posedge clk) begin
         if (!rst_n)
-            count <= 8'b00000000;
+            count <= 8'h00;
         else
-            count <= count + 8'b00000001;
+            count <= count + 8'h01;
     end
 
-    // Send counter value to output pins
-    assign uo_out = count;
-
-    // Bidirectional pins are unused
-    assign uio_out = 8'b00000000;
-    assign uio_oe  = 8'b00000000;
+    assign uo_out  = count;
+    assign uio_out = 8'h00;
+    assign uio_oe  = 8'h00;
 
     // Unused inputs
     wire _unused = &{ena, ui_in, uio_in, 1'b0};
