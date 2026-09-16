@@ -1,9 +1,7 @@
 /*
- * Copyright (c) 2024 Your Name
+ * Copyright (c) 2024 S-Yuvan-Shankar
  * SPDX-License-Identifier: Apache-2.0
  */
-
-`default_nettype none
 
 module tt_um_counter (
     input  wire [7:0] ui_in,
@@ -28,8 +26,5 @@ module tt_um_counter (
     assign uo_out  = count;
     assign uio_out = 8'h00;
     assign uio_oe  = 8'h00;
-
-    // Unused inputs
-    wire _unused = &{ena, ui_in, uio_in, 1'b0};
 
 endmodule
