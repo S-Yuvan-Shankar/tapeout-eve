@@ -10,31 +10,64 @@ from cocotb.triggers import ClockCycles
 async def test_project(dut):
     dut._log.info("Start")
 
-    # Set the clock period to 10 us (100 KHz)
+    # Start clock: 10 us period = 100 KHz
     clock = Clock(dut.clk, 10, unit="us")
     cocotb.start_soon(clock.start())
 
-    # Reset
+    # -------------------------
+    # Reset the counter
+    # -------------------------
     dut._log.info("Reset")
+
     dut.ena.value = 1
     dut.ui_in.value = 0
     dut.uio_in.value = 0
     dut.rst_n.value = 0
-    await ClockCycles(dut.clk, 10)
+
+    # Hold reset for 2 clock cycles
+    await ClockCycles(dut.clk, 2)
+
+    # Counter should be 0 after reset
+    assert dut.uo_out.value == 0
+
+    # Release reset
     dut.rst_n.value = 1
 
-    dut._log.info("Test project behavior")
+    # -------------------------
+    # Test counting
+    # -------------------------
+    dut._log.info("Testing counter")
 
-    # Set the input values you want to test
-    dut.ui_in.value = 20
-    dut.uio_in.value = 30
+    # After 1 clock cycle, counter = 1
+    await ClockCycles(dut.clk, 1)
+    assert dut.uo_out.value == 1
 
-    # Wait for one clock cycle to see the output values
+    # After another clock cycle, counter = 2
+    await ClockCycles(dut.clk, 1)
+    assert dut.uo_out.value == 2
+
+    # Count up to 10
+    for expected_count in range(3, 11):
+        await ClockCycles(dut.clk, 1)
+        assert dut.uo_out.value == expected_count
+
+    dut._log.info("Counter test passed!")
+
+    # -------------------------
+    # Test reset again
+    # -------------------------
+    dut._log.info("Testing reset")
+
+    dut.rst_n.value = 0
     await ClockCycles(dut.clk, 1)
 
-    # The following assersion is just an example of how to check the output values.
-    # Change it to match the actual expected output of your module:
-    assert dut.uo_out.value == 50
+    # Counter should return to 0
+    assert dut.uo_out.value == 0
 
-    # Keep testing the module by changing the input values, waiting for
-    # one or more clock cycles, and asserting the expected output values.
+    dut.rst_n.value = 1
+
+    # Counter should start again from 1
+    await ClockCycles(dut.clk, 1)
+    assert dut.uo_out.value == 1
+
+    dut._log.info("All tests passed!")
